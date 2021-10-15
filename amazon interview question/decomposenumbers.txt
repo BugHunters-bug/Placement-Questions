@@ -1,0 +1,95 @@
+Reason
+I was asked this question in my Amazon Interview for SDE intern on campus and this question is easy and tricky and really a mind buzzing for beginner or medium level programmer includes the concept of elementary maths,prefix sum,searching,two pointer and dynamic programming.
+Description
+A positive integer is been given to you let's say it N, now you have to tell whether this number is decomposable or not and to check the decomposability there are three conditions given and the number is only decomposable if it follows all the three conditons else it is not decomposable.
+1 N can be broken down into two numbers let's say A and B such that And B sum upto N i.e (A+B=N)
+2 A and B should be distinct numbers (A != B)
+3 A and B should be the sum of first I and J positive integers (I != J)
+
+So according to the question if the number is decomposable return true else return false.
+
+Example 1: Input = 146 ,Output = 1                                                                                                                                      Explaination: The number 146 can be broken down into two numbers 55 and 91, 55 is the sum                                            first 10 positive integers and 91 is the sum first 13 positive integers
+
+Constraints: 1 <=N<=10^6                                                                                                                                                       1 <=A,B< N
+
+Time Complexity : O(N)
+
+                                                                                                                                          
+
+ 
+
+ 
+
+ 
+
+Solutions
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////* The intuition behind this solution to store all the sum of first i positive integers in an array and every time incrementing i until the sum of first i'th positive numbers exceed N 
+
+ int sum [2001];
+	for(i=1;i<2001;i++){
+	    int c= (i*(i+1))/2;
+	    sum[i]=c;
+	    if(sum[i]>N)
+	    break;
+	}
+
+
+Now we have an strictly increasing array of sum which breaks down problem to pair with a given sum in a sorted array we can keep target as N and use two pointer approach to find it. 
+
+
+int start=1,end=i;
+	while(start!=end){
+	    if(sum[start]+sum[end]==N)
+	        return true;
+	    else if(sum[start]+sum[end]>N)
+	        end--;
+	    else
+	        start++;
+	}
+*/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#include <bits/stdc++.h>
+using namespace std;
+bool decomposeNumbers(int N)
+{
+    int i;
+    int sum [2001];
+	for(i=1;i<2001;i++){
+	    int c= (i*(i+1))/2;
+	    sum[i]=c;
+	    if(sum[i]>N)
+	    break;
+	}
+	
+	int start=1,end=i;
+	while(start!=end){
+	    if(sum[start]+sum[end]==N)
+	        return true;
+	    else if(sum[start]+sum[end]>N)
+	        end--;
+	    else
+	        start++;
+	}
+	
+	return false;
+}
+
+int main() {
+	// your code goes here
+	int N,i;
+	cin>>N;
+	cout<<decomposeNumbers(N);
+	return 0;
+}
+Test Cases
+Input: N=146
+Output : 1
+
+Input : N=55
+Output : 0
+
+Input: N=9
+Output: 1
+
+Input: N=1
+Output: 0
